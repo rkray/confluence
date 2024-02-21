@@ -1,0 +1,31 @@
+## Macro title: table-filter-input
+## Macro has a body: N
+## Developed by: MarcTroesken
+## Date created: 2018-08-09
+
+## @param 0:title=Length of the input field|type=enum|enumValues=short-field,medium-field,medium-long-field,long-field,full-width-field|default=long-field
+
+<form class="aui">
+<input class="text $param0" type="text" id="searchInput" placeholder="Search for Table Content">
+</form>
+
+<script type="text/javascript">
+    AJS.$("#searchInput").keyup(function () {
+      var jqry = AJS.$
+      var rows = jqry("tr").hide();
+      if (this.value.length) {
+          var data = this.value.split(" ");
+          jqry.each(data, function (i, v) {
+               rows.filter(function(ind, val) {
+                 if (jqry(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1) {
+                     return true;
+                 }
+               }).show();
+          });
+       } else {
+          rows.show();
+       }
+
+       jqry('tbody tr th').parent().show();
+   });
+</script>

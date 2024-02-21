@@ -1,0 +1,34 @@
+## Macro title: My Macro
+## Macro has a body: N
+## Developed by: René Kray
+## Date created: 06/11/2020
+## Installed by: René Kray
+## @param Label:title=Space Category|type=string|required=true|desc=The category you want to list spaces from.
+
+## try to get space category
+#set ( $spaceLabel = $action.labelManager.getLabel( "team:${paramLabel}" ) )
+
+## check if space category exists
+#if ( $!spaceLabel )
+    ## try to get spaces by category
+    #set ( $spaces = $action.labelManager.getSpacesWithLabel( $spaceLabel ) )
+    <ul class="content-by-label conf-macro output-block">
+    #foreach ( $space in $spaces )
+        ## check if current user can view space
+        #if ( $permissionHelper.canView( $action.remoteUser, $space ) )
+            <li>
+                <span class="icon aui-icon content-type-home" title="Space">Space</span>
+                <a href="$!space.urlPath">$!space.name</a> - owner: $!space.getCreator().getFullName()
+            </li>
+        #end
+    #end
+    </ul>
+#else
+    <div class="aui-message warning">
+        <p class="title">
+            <span class="aui-icon icon-warning">Warning</span>
+            <strong>Space category not found</strong>
+        </p>
+        <p>Couldn't find space category <strong>$paramLabel</strong>!</p>
+    </div>
+#end

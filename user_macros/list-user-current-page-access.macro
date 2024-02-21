@@ -1,0 +1,18 @@
+## Macro title: Get List User Current Page Access
+Get Restricted Pages
+
+## @noparams
+
+Users with view Permission to this page
+
+<ul>
+##iterate over all view contentpermissionssets
+#foreach( $user in $userAccessor.getUsers() )
+
+#if($permissionHelper.canView($user,$content) )
+
+##if yes print the name
+<li>$user.getFullName()</li>
+#end
+#end
+</ul>

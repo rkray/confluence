@@ -1,0 +1,41 @@
+## Macro Name: box_bar
+## Macro Title: "Box Bar"
+## Description: "Progress bar with boxes"
+## Cotegorie: Visual & Images
+## Icon URL: https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/256x256/plain/progress_bar.png
+## Macro Body Processing: Unrendered
+## Macro has a body: the amount of filled boxes
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: René Kray
+## Date created: 23/09/2018
+## Installed by: René Kray
+
+## @param Width:title=Width|type=string|required=true|desc=30px|default=30px
+## @param Height:title=Height|type=string|required=true|desc=30px|default=30px
+## @param Color:title=Favourite Color|type=enum|enumValues=green,greenyellow,yellow,orange,red|default=green|desc=Choose your favourite color
+## @param Count:title=Count of boxes|type=int|default=10|desc=Number of Boxes
+
+## Umwandeln eines Strings in ein Int
+#set($count=0)
+#set($count=$count.parseInt($paramCount))
+#if($body)
+  #set($current=0)
+  #set($current=$current.parseInt($body))
+#else
+  #set($current=0)
+#end
+
+<div style="display : table; height : $paramHeight; border : solid black 1px; border-spacing : 2px; border-collapse : separate; border-radius : 5px;">
+    <div style="display : table-row;">
+    #foreach($number in [1..$count])
+        #if( $number <= $current )
+            #set($color=$paramColor)
+        #else
+            #set($color="white")
+        #end
+        <div class="td" style="display : table-cell; border : thin solid black; width : $paramWidth; border-radius : 3px; background-color: $color;">&nbsp;</div>
+    #end
+    </div>
+</div>

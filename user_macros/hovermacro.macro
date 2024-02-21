@@ -1,0 +1,7 @@
+## @noparams
+
+<style>
+.panel a img:hover {
+opacity: 0.5;
+}
+</style>

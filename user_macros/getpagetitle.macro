@@ -1,0 +1,23 @@
+## Macro title: getpagetitle
+## Macro has a body: N
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: René Kray
+## Date created: 2020-05-13
+## Installed by: René Kray
+
+## This is an example macro
+## @param Parent:title=Parent|type=enum|required=true|enumValues=Current,Parent,ParentParent,ParentParentParent|desc= get the Title of the parent or the parent parent page
+#if ( $paramParent == "Current" )
+    #set ( $title = $content.getTitle() )
+#elseif ( $paramParent == "Parent" )
+    #set ( $title = $content.getParent().getTitle() )
+#elseif ( $paramParent  == "ParentParent" )
+    #set ( $title = $content.getParent().getParent().getTitle() )
+#elseif ( $paramParent  == "ParentParentParent" )
+    #set ( $title = $content.getParent().getParent().getParent().getTitle() )
+#else
+    #set ( $title = "default" )
+#end
+<span>$title</span>

@@ -1,0 +1,21 @@
+## Macro title: My Macro
+## Macro has a body: N
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: René Kray
+## Date created: 2020-05-13
+## Installed by: René Kray
+
+## This is an example macro
+## @param Property:title=Property|type=string|required=true|desc=Bla
+
+#set ($properties = $content.getProperties())
+#set ($propertyValue = $properties.getStringProperty($paramProperty))
+<pre>
+paramProperty: $paramProperty
+properties: $properties.asList()
+propertyValue: $propertyValue
+Parent-Title:  $content.getParent().getTitle()
+Bla: $pageProperty.from("Bla")
+</pre>

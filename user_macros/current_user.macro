@@ -1,0 +1,15 @@
+## Macro Name: current_user
+## Macro Title: Current User
+## Description: Display current Username
+## Categories: Confluence Content
+Macro Body Processing: No macro body
+## Macro has a body: N
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: René Kray
+## Date created: 02/09/2019
+## Installed by: René Kray
+
+## @noparams
+$action.remoteUser.FullName

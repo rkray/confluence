@@ -1,0 +1,4 @@
+## @param tip:title=Tip|type=string|required=true|desc=enter a tip
+## @param text:title=Text|type=string|required=true|desc=enter a text
+## @param color:title=Color|type=string|required=true|default=#ACACAC|desc=enter a color
+<a style="text-decoration:none; border-bottom:2px dotted; border-bottom-color:$paramcolor" title="$paramtip">$paramtext</a>

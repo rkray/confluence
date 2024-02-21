@@ -1,0 +1,32 @@
+## Macro title: percentage_bar
+## Macro has a body: the percentage value
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: René Kray
+## Date created: 22/09/2018
+## Installed by: René Kray
+
+## This is an example macro
+## @param Width:title=Width|type=string|required=true|desc=400px|default=400px
+## @param Height:title=Height|type=string|required=true|desc=20px|default=20px
+## @param Colour:title=Favourite Colour|type=enum|enumValues=green,greenyellow,yellow,orange,red|default=green|desc=Choose your favourite colour
+## @param Align:title=Text Align|type=enum|enumValues=left,center,right|default=center|desc=Choose your favourite alignment
+
+#if($paramColour == "yellow" || $paramColour == "greenyellow" || $paramColour == "orange")
+#set ( $foreground = "black" )
+#else
+#set ( $foreground = "white" )
+#end
+
+<div
+  title="outer div"
+  style="border:solid black 1px; width:$paramWidth; height:$paramHeight; border-radius: 5px;"
+>
+#if($body and $body!="0" and $body != "0%")
+<div
+  title="inner div"
+  style="background-color: $paramColour; border-radius: 3px; width:$body; font-weight: bold; color: $foreground; text-align: $paramAlign"
+>$body</div>
+#end
+</div>

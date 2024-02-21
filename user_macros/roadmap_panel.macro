@@ -1,0 +1,100 @@
+## Macro title: Test forName
+## Macro has a body: N
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: René Kray
+## Date created: 2021-03-23
+## Installed by: René Kray
+## @param title:title=Title|type=string|required=true|default=Title for this panel
+## @param o1:title=O1|type=boolean|required=true|default=false
+## @param o1ext:title=O1 Ext|type=string|required=false|default=
+## @param o2:title=O2|type=boolean|required=true|default=false
+## @param o2ext:title=O2 Ext|type=string|required=false|default=
+## @param o3:title=O3|type=boolean|required=true|default=false
+## @param o3ext:title=O3 Ext|type=string|required=false|default=
+## @param health:title=Health|type=boolean|required=true|default=false
+
+<style>
+div.roadmap_panel{
+    border: solid grey 1px;
+    border-radius: 5px;
+    background-color: #ddd;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+}
+div.roadmap_panel div.roadmap_panel_title{
+    padding: 5px 5px 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+div.roadmap_panel div.roadmap_panel_title span.button{
+    padding: 2px 5px 2px 5px;
+    float: right;
+}
+div.roadmap_panel div.roadmap_panel_title span.status{
+    padding: 2px 5px 2px 5px;
+    border-radius: 3px;
+    border: solid black 1px;
+    color: white;
+    font-size: 80%;
+    float: right;
+    margin-right: 5px;
+}
+div.roadmap_panel div.roadmap_panel_body{
+    background-color: white;
+    padding: 5px;
+    border-radius: 0 0 5px 5px;
+    border-top: solid #999 1px;
+    display: none;
+}
+</style>
+<div class="roadmap_panel" id="$paramtitle">
+	<div onclick="roadmap_panel_show_hide('$paramtitle')" class="roadmap_panel_title">
+        <span class="button">+</span>
+        #if ($paramhealth==true)
+          <span class="status" style="background-color: green;">Health</span>
+        #end
+        #if ($paramo3==true)
+          <span class="status" style="background-color: red;">
+            O3
+            #if ( "$paramo3ext" != "" )
+           - $paramo3ext
+            #end
+          </span>
+        #end
+        #if ($paramo2==true)
+          <span class="status" style="background-color: red;">
+          O2
+            #if ( "$paramo2ext" != "" )
+           - $paramo2ext
+            #end
+          </span>
+        #end
+        #if ($paramo1==true)
+          <span class="status" style="background-color: red;">
+          O1
+            #if ( "$paramo1ext" != "" )
+           - $paramo1ext
+            #end
+          </span>
+        #end
+    	<p style="margin:0">$paramtitle</p>
+    </div>
+	<div class="roadmap_panel_body">
+    $body
+    </div>
+</div>
+<script>
+function roadmap_panel_show_hide(id) {
+  panel=document.getElementById(id);
+  button=panel.getElementsByTagName("SPAN")[0];
+  body=panel.getElementsByTagName("DIV")[1];
+  if(body.style.getPropertyValue('display')=="block"){
+    body.style.setProperty('display','none');
+    button.innerHTML="+";
+  }else{
+    body.style.setProperty('display','block');
+    button.innerHTML="-";
+  }
+}
+</script>

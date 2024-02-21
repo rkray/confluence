@@ -1,0 +1,52 @@
+## Macro title: Get All Confluence AD Groups with Membership | only using for Confluence
+## Installed by Hieu Huynh
+
+## @noparams
+
+#foreach ($group in $userAccessor.getGroups())
+
+      #if($group.name.contains("confluence.group"))
+          #set ( $usernames = $userAccessor.getMemberNamesAsList($group))
+          #set ( $count = 0 )
+          #foreach( $username in  $usernames)
+                #set( $count = $count + 1 )
+          #end
+          
+          <ac:structured-macro ac:name="panel">
+                <ac:parameter ac:name="bgColor">#e6e6e6</ac:parameter>
+                <ac:parameter ac:name="titleBGColor">#00aaff</ac:parameter>
+                <ac:parameter ac:name="title">$group.getName() ($count)</ac:parameter>
+                <ac:parameter ac:name="titleColor">white</ac:parameter>                
+
+                <ac:rich-text-body>
+                      #if ($count > 0)
+                          <table class="aui aui-table-sortable">
+                              <thead>
+                                  <tr>
+                                      <th>Fullname</th>
+                                      <th>Username</th>
+                                      <th>Email</th>
+                                  <tr>
+                              </thead>
+                              <tbody>
+                                  #foreach($user in $userAccessor.getMembers($userAccessor.getGroup($group.name)))
+                                      <tr>
+                                          <td>$user.getFullName()</td>
+                                          <td>$user.getName()</td>
+                                          <td>$user.getEmail()</td>
+                                      </tr>
+                                  #end
+                              </tbody>
+                          </table>
+                      #else
+                          <li>--empty--</li>
+                      #end
+                </ac:rich-text-body>            
+
+          </ac:structured-macro>      
+
+      #end
+
+#end
+
+

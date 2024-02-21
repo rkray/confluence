@@ -1,0 +1,93 @@
+## Macro Name: find-attachments-by-type
+## Macro Title: Find Attachments by Type
+## Description: This Macro search in a given space for attachment by spezified type.
+## Categories: Confluence content
+## Macro Body Processing: No macro body
+## Macro has a body: N
+## Body processing: Selected body processing option
+## Output: Selected output option
+##
+## Developed by: René Kray
+## Date created: 05/12/2017
+## Installed by: rk_macro
+
+## @param Type:title=Type|type=string|required=false|desc=z.B. application/gliffy+json
+## @param Space:title=Space|type=string|required=false|desc=e.g. IT, an empty space key means the current space
+
+#set ( $filterType = $paramType )
+
+#if (!$paramSpace)
+  #set ($dstspace=$space)
+#else
+  #set ($dstspace=$spaceManager.getSpace($paramSpace))
+#end
+
+<style>
+  dt { color: green; padding-left:10px; font-weight: bold;}
+</style>
+
+#set($users=[])
+#set($cnt=0)
+
+<h1>$dstspace.getName() ($dstspace.key)</h1>
+
+  #set($pagesWithAttachments = [])
+  #set($allPagesInSpace = $pageManager.getPages($dstspace, true) )
+  #foreach($page in $allPagesInSpace)
+    #if($page.getAttachments().size()>0)
+      #set($ok=0)
+      #foreach($attachment in $page.getLatestVersionsOfAttachments())
+        #if(!$filterType || $attachment.getMediaType()==$filterType)
+          #set($ok=1)
+          #set($cnt=$cnt+1)
+        #end
+      #end
+      #if($ok==1)
+        #if($pagesWithAttachments.add($page)) #end
+        ##note the if above is to trap a "true" return - may not be required
+      #end
+    #end
+
+  ## render the result list
+  #if($pagesWithAttachments.size()>0)
+      #foreach($page in $pagesWithAttachments)
+      <p>
+        <a href="${req.contextPath}$page.urlPath">$page.getNameForComparison()</a>
+        <table>
+          #foreach($attachment in $page.getLatestVersionsOfAttachments())
+            #if((!$filterType) || ($attachment.getMediaType()==$filterType))
+            <tr>
+              <th>$attachment.getFileName()</th>
+              <td>$attachment.getMediaType()</td>
+              <td>$attachment.getLastModifierName()</td>
+              #set($null=$users.add($attachment.getLastModifierName()))
+            </tr>
+            #end
+          #end
+        </table>
+      </p>
+    #end
+  #end
+#end
+
+#set($uniqueUsers = [])
+#foreach($user in $users) 
+    #if( ! $uniqueUsers.contains( $user )  )
+        #if( $uniqueUsers.add($user) ) #end 
+        ##note the if above is to trap a "true" return - may not be required
+    #end
+#end
+
+<h2>Total number: $cnt</h2>
+
+<h2>Users</h2>
+<table>
+#foreach($user in $uniqueUsers)
+  <tr>
+    <td>$user</td>
+    #set($cuser=$action.getUserByName($user))
+    <td>$cuser.getFullName()</td>
+    <td>$cuser.getEmail()</td>
+  </tr>
+#end
+</table>
